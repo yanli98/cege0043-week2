@@ -7,7 +7,10 @@
 	<style type="text/css">
 #mapid { height: 180px; }
 	</style>
-
+	<!-- the following links incorporate the CSS required for custom icon creation -->
+	<link rel="stylesheet" href="ionicons.min.css">
+	<link rel="stylesheet" href="leaflet.awesome-markers.css">
+	<script src="leaflet.awesome-markers.js"></script>
 </head>
 <body>
 	<!-- the mapid div will hold the map -->
@@ -25,6 +28,13 @@ basemap tiles -->
 				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			id: 'mapbox.streets'
 	}).addTo(mymap);
+	
+	// create a custom Marker icon
+	var testMarkerPink = L.AwesomeMarkers.icon({
+		icon: 'play',
+		markerColor: 'pink'
+	});
+	
 	// create a geoJSON feature -
 	var geojsonFeature = {
 		"type": "Feature",
@@ -38,10 +48,14 @@ basemap tiles -->
 		}
 	};
 	// and add it to the map
-	L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+""+geojsonFeature.properties.popupContent+"<b>");
+	L.geoJSON(geojsonFeature, {
+		pointToLayer: function (feature, latlng) {
+			return L.marker(latlng, {icon:testMarkerPink});
+		}
+	}).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+" "+geojsonFeature.properties.popupContent+"<b>");
+	
 	// create a custom popup
 	var popup = L.popup();
-	
 	// create an event detector to wait for the user's click event and then use the popup to show them where they clicked
 	// note that you don't need to do any complicated maths to convert screen coordinates to real world coordiantes - the Leaflet API does this for you
 	function onMapClick(e) {
