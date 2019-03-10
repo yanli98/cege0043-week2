@@ -44,8 +44,13 @@
 		// change the map zoom so that all the data is shown
 		mymap.fitBounds(earthquakelayer.getBounds());
 	}
+
+	// make sure that there is a variable for the earthquake layer to be referenced by
+	// this should be GLOBAL – i.e. not inside a function – so that any code can see the variable
+	var earthquakelayer;
 	function removeEarthquakeData() {
-		alert("remove the earthquake data here");
+		alert("Earthquake data will be removed");
+		mymap.removeLayer( earthquakelayer );
 	}
 	</script>
 </head>
@@ -66,20 +71,6 @@
 				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			id: 'mapbox.streets'
 	}).addTo(mymap);
-	// create a geoJSON feature -
-	var geojsonFeature = {
-		"type": "Feature",
-		"properties": {
-		"name": "London",
-		"popupContent": "This is where UCL is based"
-		},
-		"geometry": {
-			"type": "Point",
-			"coordinates": [-0.135216, 51.521679]
-		}
-	};
-	// and add it to the map
-	L.geoJSON(geojsonFeature).addTo(mymap).bindPopup("<b>"+geojsonFeature.properties.name+""+geojsonFeature.properties.popupContent+"<b>");
 
 	</script>
 </body>
